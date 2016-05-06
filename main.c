@@ -1,22 +1,10 @@
 //======================================================================
-//【版权】(C) COPYRIGHT 2009 天祥电子 WWW.TXMCU.COM  ALL RIGHTS RESERVED
-//【声明】此程序仅用于学习与参考，引用请注明版权和作者信息！
-//======================================================================
-//======================================================================
 //  工程名称：	 GPS模块测试程序
 //  文件名称：  main.c
 //  功能描述：  GPS模块接收定位信息，在LCD上显示
 //  组成文件：	 main.c LCD.c GPS.c display.c  
 //    头文件：  LCD.h GPS.h display.h
 //  程序分析：	 GPS模块通过串口向单片机发送固定格式的数据
-//				    单片机的串口接收到数据后，进行解析，在LCD上显示
-//				    定位信息包括：日期时间，经纬度，速度，角度，高度
-//  硬件连接：	 将GPS模块插在51STAR实验箱的MP3模块插座上，或使用TTL电平
-//              接口和51单片机连接	
-//  维护记录：	 2009-8-23 v1.0	  by xgc
-//              2010-1-30 v1.1    by xgc  加入了可视卫星数量
-//
-//  代码作者：  相广超  xgc94418297.blog.163.com
 //======================================================================
 
 #include <reg52.h>
@@ -30,10 +18,10 @@ sbit led1 = P1^0;  //接收数据指示灯
 sbit led2 = P1^1;  //GPRMC数据有效指示灯
 sbit led3 = P1^2;  //GPGGA数据有效指示灯
 
-uchar code init1[] = {"GPS 模块测试程序"};
-uchar code init2[] = {"  WWW.TXMCU.COM "};
-uchar code init3[] = {"GPS 初始化......"};
-uchar code init4[] = {"搜索定位卫星...."};
+uchar  init1[] = {"GPS 模块测试程序"};
+uchar  init2[] = {"  WWW.TXMCU.COM "};
+uchar  init3[] = {"GPS 初始化......"};
+uchar  init4[] = {"搜索定位卫星...."};
 
 #define   REV_YES    led1 = 0
 #define   REV_NO     led1 = 1
@@ -42,12 +30,12 @@ uchar code init4[] = {"搜索定位卫星...."};
 #define   GGA_YES    led3 = 0
 #define   GGA_NO     led3 = 1
 
-char xdata rev_buf[80];        //接收缓存
-uchar xdata rev_start = 0;     //接收开始标志
-uchar xdata rev_stop  = 0;     //接收停止标志
-uchar xdata gps_flag = 0;      //GPS处理标志
-uchar xdata change_page = 0;   //换页显示标志
-uchar xdata num = 0;           //
+char  rev_buf[80];        //接收缓存
+uchar rev_start = 0;     //接收开始标志
+uchar rev_stop  = 0;     //接收停止标志
+uchar gps_flag = 0;      //GPS处理标志
+uchar change_page = 0;   //换页显示标志
+uchar num = 0;           //
 
 extern GPS_INFO   GPS;  //在display.c中定义，使用时要加extern
 
@@ -74,7 +62,7 @@ void GPS_Init(void)
 /****************************************/
 void Uart_Init(void)
 {
-	TMOD = 0x21;
+/*	TMOD = 0x21;
 	TH0=0x3c;
 	TL0=0xb0;
 	TH1=0xfd;
@@ -90,7 +78,9 @@ void Uart_Init(void)
 
 	EA=1;    //开总中断
 	ES=1;    //串口1中断允许
-	ET0 = 1; //定时器1中断允许
+	ET0 = 1; //定时器1中断允许*/
+
+
 }
 
 /****************************************
@@ -168,7 +158,7 @@ void main(void)
 /****************************************
 定时器中断	
 /****************************************/
-void timer0(void) interrupt 1
+void timer0(void) 
 {
 	static uchar count = 0;
 	TH0 = 0x3c;
@@ -186,7 +176,7 @@ void timer0(void) interrupt 1
 /****************************************
 串口接收中断	
 /****************************************/
-void Uart_Receive(void) interrupt 4
+void Uart_Receive(void) 
 {
 	uchar ch;
 	ES = 0;

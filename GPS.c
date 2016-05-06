@@ -36,7 +36,7 @@ int GPS_RMC_Parse(char *line,GPS_INFO *GPS)
 			GPS->latitude   = Get_Double_Number(&buf[GetComma(3, buf)]);
 			GPS->longitude  = Get_Double_Number(&buf[GetComma( 5, buf)]);
 
-       	GPS->latitude_Degree  = (int)GPS->latitude / 100;       //分离纬度
+       	    GPS->latitude_Degree  = (int)GPS->latitude / 100;       //分离纬度
 			lati_cent_tmp         = (GPS->latitude - GPS->latitude_Degree * 100);
 			GPS->latitude_Cent    = (int)lati_cent_tmp;
 			lati_second_tmp       = (lati_cent_tmp - GPS->latitude_Cent) * 60;
@@ -502,4 +502,8 @@ void Int_To_Str(int x,char *Str)
 	}
 	*Ptr = '\0';
 }
+
+
+
+
 
